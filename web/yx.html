@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>越線</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* ===== 基礎變數 ===== */
+:root {
+    --primary-color: #00a8ff;
+    --secondary-color: #ff9f1a;
+    --dark-bg: #0a0a0a;
+    --medium-bg: #1a1a1a;
+    --light-bg: #2d2d2d;
+    --text-light: #f5f5f5;
+    --text-muted: #b0b0b0;
+    --transition: all 0.3s ease;
+    --shadow: 0 5px 15px rgba(0,0,0,0.5);
+    --border-radius: 8px;
+}
+
+* {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+html {scroll-behavior: smooth;}
+body {background-color: var(--dark-bg);color: var(--text-light);line-height:1.6;overflow-x:hidden;}
+
+.container {width:100%;max-width:1200px;margin:0 auto;padding:0 20px;}
+section {padding:80px 0; scroll-margin-top:80px;}
+h1,h2,h3,h4{font-weight:700;line-height:1.3;margin-bottom:1.5rem;}
+h2{font-size:2.5rem;position:relative;display:inline-block;}
+h2:after{content:'';position:absolute;left:0;bottom:-10px;width:60px;height:4px;background-color: var(--primary-color);}
+p{margin-bottom:1.5rem;color: var(--text-muted);}
+.highlight{color: var(--primary-color);}
+.btn{display:inline-block;padding:12px 30px;background-color: var(--primary-color);color:white;border:none;border-radius: var(--border-radius);cursor:pointer;font-weight:600;text-transform:uppercase;letter-spacing:1px;transition: var(--transition);text-decoration:none;}
+.btn:hover{background-color: var(--secondary-color);transform: translateY(-3px);box-shadow: var(--shadow);}
+
+/* ===== 导览列 ===== */
+nav {
+    position: fixed;top:0;left:0;width:100%;
+    background-color: rgba(10,10,10,0.95);
+    backdrop-filter: blur(10px);
+    z-index:1000;
+    box-shadow:0 2px 10px rgba(0,0,0,0.3);
+    transition: var(--transition);
+}
+.nav-container {
+  display: flex;
+  justify-content: flex-end; /* 菜单右对齐 */
+  align-items: center;
+  max-width: 900px; /* 导航栏最大宽度 */
+  margin: 0 auto;   /* 居中 */
+  padding: 10px 20px;
+}
+.nav-links {display:flex;list-style:none;}
+.nav-links li {margin-left:30px;}
+.nav-links a {color: var(--text-light);text-decoration:none;font-weight:500;transition: var(--transition);position:relative;}
+.nav-links a:hover{color: var(--primary-color);}
+.nav-links a:after {content:'';position:absolute;width:0;height:2px;background: var(--primary-color);left:0;bottom:-5px;transition: var(--transition);}
+.nav-links a:hover:after{width:100%;}
+.hamburger {display:none;background:none;border:none;color: var(--text-light);font-size:1.5rem;cursor:pointer;}
+
+/* ===== Hero ===== */
+.hero {height:calc(100vh/3);min-height:400px;background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('4-8.png');background-size:cover;background-position:center;background-attachment:fixed;display:flex;align-items:center;justify-content:center;text-align:center;}
+.hero-content {max-width:800px;padding:20px;}
+.hero h1{font-size:3.5rem;margin-bottom:20px;text-shadow:2px 2px 10px rgba(0,0,0,0.8);}
+.hero p{font-size:1.2rem;color: var(--text-light);}
+
+/* ===== About ===== */
+.about-container{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;}
+.about-img{border-radius: var(--border-radius);overflow:hidden;box-shadow: var(--shadow);}
+.about-img img{width:100%;height:auto;display:block;transition: var(--transition);}
+.about-img:hover img{transform:scale(1.05);}
+.about-text h3{font-size:1.8rem;color: var(--text-light);margin-bottom:20px;}
+.story-points{list-style:none;margin-top:20px;}
+.story-points li{margin-bottom:15px;padding-left:25px;position:relative;}
+.story-points li:before{content:'▶';position:absolute;left:0;color: var(--primary-color);font-size:0.8rem;}
+
+/* ===== Portfolio ===== */
+.portfolio{background-color: var(--medium-bg);}
+.video-container{position:relative;width:100%;padding-top:31.58%;margin-top:40px;box-shadow: var(--shadow);border-radius: var(--border-radius);overflow:hidden;}
+.video-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.video-placeholder{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(45deg,#0a0a0a,#2d2d2d);display:flex;align-items:center;justify-content:center;flex-direction:column;color: var(--text-light);}
+.video-placeholder i{font-size:4rem;color: var(--primary-color);margin-bottom:20px;}
+
+/* ===== Philosophy ===== */
+.philosophy-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:50px;}
+.card{background-color: var(--light-bg);padding:40px 30px;border-radius: var(--border-radius);text-align:center;transition: var(--transition);box-shadow: var(--shadow);}
+.card:hover{transform:translateY(-10px);box-shadow:0 15px 30px rgba(0,0,0,0.4);}
+.card i{font-size:3rem;color: var(--primary-color);margin-bottom:25px;}
+.card h3{font-size:1.5rem;color: var(--text-light);margin-bottom:15px;}
+
+/* ===== Footer ===== */
+footer{background-color: var(--dark-bg);padding:60px 0 30px;border-top:1px solid rgba(255,255,255,0.1);}
+.footer-content{text-align:center;}
+copyright{color: var(--text-muted);font-size:0.9rem;margin-top:40px;}
+
+/* ===== 響應式 ===== */
+@media(max-width:992px){.about-container{grid-template-columns:1fr;}.philosophy-cards{grid-template-columns:repeat(2,1fr);}.hero h1{font-size:2.8rem;}}
+@media(max-width:768px){
+.nav-links{position:fixed;top:70px;left:0;width:100%;background-color: var(--dark-bg);flex-direction:column;align-items:center;padding:20px 0;clip-path:polygon(0 0,100% 0,100% 0,0 0);transition: var(--transition);box-shadow:0 10px 20px rgba(0,0,0,0.2);}
+.nav-links.active{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);}
+.nav-links li{margin:15px 0;}
+.hamburger{display:block;}
+.hero h1{font-size:2.2rem;}
+h2{font-size:2rem;}
+section{padding:60px 0;}
+}
+@media(max-width:576px){.philosophy-cards{grid-template-columns:1fr;}.hero h1{font-size:1.8rem;}.container{padding:0 15px;}.video-placeholder h3{font-size:1.2rem;}}
+</style>
+</head>
+<body>
+
+<!-- 导览列 -->
+<nav>
+  <div class="container nav-container">
+    <button class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#portfolio">Exhibition</a></li>
+      <li><a href="#philosophy">Philosophy</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>路是歸途，也是盡頭</h1>
+    <p>關注路殺議題，探討如何與自然共存</p>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="about">
+  <div class="container">
+    <h2>About Us<span class="highlight"> 作品介紹</span></h2>
+    <div class="about-container">
+      <div class="about-img"><img src="2026-01-12 173654.png" alt="about"></div>
+      <div class="about-text">
+        <h3>《越線》 - 一部關於動物路殺的動畫</h3>
+        <p>我們選擇以青蛙作為主角，是因其具備從水生到陸生的變態過程，在造型與敘事上更能自然連結「離開原地」與「回歸本能」這兩種動態。
+創作上採用2D動畫形式，設計風格區分為兩種視覺語言：現實段落以低飽和、遠距冷色鏡頭呈現紀錄片感；記憶段落則採用明亮光感與貼近視角，展現理想棲地的片段。敘事無對白，透過分鏡節奏、轉場與空間設計表達動物在都市中生存的不確定性與受限感。
+</p>
+        <h4>分鏡說明：</h4>
+        <ul class="story-points">
+          <li>開場使用近遠景呈現主角生存環境的苛刻</li>
+          <li>中間穿越馬路，被蛇盯上，描述過程的種種威脅</li>
+          <li>結尾離回歸自然僅剩一牆之隔，卻是難以跨越的命運</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio -->
+<section id="portfolio" class="portfolio">
+  <div class="container">
+    <h2>Work Exhibition<span class="highlight"> 作品展示</span></h2>
+    <p>我們的作品《越線》完整影片。</p>
+  
+      <video src="四剪.mp4" controls width="100%"><i class="fas fa-film"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- Philosophy -->
+<section id="philosophy" class="philosophy">
+  <div class="container">
+    <h2>Our Philosophy<span class="highlight"> 設計理念</span></h2>
+    <p>我們希望藉由這部作品，讓觀眾看見那些被車輪碾碎的、被人們忽視的生命重量，進而將目光投向路殺背後更深層的生態命題：道路建設與野生動物棲息地的割裂、生態廊道的缺失、人類出行習慣對自然的影響……動畫的最終落點，從來不是渲染悲傷，而是喚醒每一個人的共情與思考，促使我們在文明發展與生態保護之間，尋找到一種更溫和、更可持續的共生之道。願每一次對生命的凝視，都能化作改變的力量，讓公路不再成為生命的邊界，而是人與自然和諧共存的紐帶。</p>
+    <div class="philosophy-cards">
+      <div class="card">
+        <i class="fas fa-user-friends"></i>
+        <h3>傳遞行動導向價值</h3>
+        <p>呼籲大眾踐行生態友好的出行與生活方式</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-palette"></i>
+        <h3>以生命視角共情</h3>
+        <p>呈現動物路殺的殘酷與惋惜，引發觀眾對生命的敬畏</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-lightbulb"></i>
+        <h3>挖掘深層生態議題</h3>
+        <p>引導觀眾思考其背後棲息地破碎、生態規劃缺失等問題</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <h3>朝陽科技大學</h3>
+      <p>視覺傳達設計系</p>
+      <p class="copyright">© 2026 Design by 王昱涵 杭閔珊 劉善美 張祐禎</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// 汉堡菜单
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
+hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    const icon = hamburger.querySelector('i');
+    icon.classList.toggle('fa-bars');
+    icon.classList.toggle('fa-times');
+});
+
+// 导览列点击 -> 平滑滚动 + 收合
+document.querySelectorAll('.nav-links a').forEach(link=>{
+    link.addEventListener('click', e=>{
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetEl = document.querySelector(targetId);
+        if(targetEl){
+            const navbarHeight = document.querySelector('nav').offsetHeight;
+            const topPosition = targetEl.getBoundingClientRect().top + window.scrollY - navbarHeight;
+            window.scrollTo({top: topPosition, behavior:'smooth'});
+        }
+        if(navLinks.classList.contains('active')){
+            navLinks.classList.remove('active');
+            const icon = hamburger.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    });
+});
+
+// Navbar 滚动效果
+window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if(window.scrollY>100){
+        nav.style.backgroundColor='rgba(10,10,10,0.98)';
+        nav.style.boxShadow='0 5px 20px rgba(0,0,0,0.5)';
+    } else {
+        nav.style.backgroundColor='rgba(10,10,10,0.95)';
+        nav.style.boxShadow='0 2px 10px rgba(0,0,0,0.3)';
+    }
+});
+</script>
+
+</body>
+</html>
